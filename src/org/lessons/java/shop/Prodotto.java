@@ -18,10 +18,9 @@ public class Prodotto {
         this.iva = iva;
     }
 
-    public String getPaddedCodice() {
+    private String getPaddedCodice() {
         return String.format("%08d", codice);
     }
-
 
     public String getNomeCompleto(){
         return "Codice: " + getPaddedCodice() + " - Nome: " + nome + " - Prezzo: " + getPrezzoConIva();
