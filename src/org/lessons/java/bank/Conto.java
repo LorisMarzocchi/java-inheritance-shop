@@ -46,9 +46,7 @@ public class Conto {
         return nConto;
     }
 
-    public double getSaldo() {
-        return saldo;
-    }
+
 
     public String getNomeUtente() {
         return nomeUtente;
