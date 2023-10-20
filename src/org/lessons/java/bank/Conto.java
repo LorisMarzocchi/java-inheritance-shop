@@ -4,7 +4,7 @@ import java.text.DecimalFormat;
 
 public class Conto {
 
-    int nConto;
+    private int nConto;
     private String nomeUtente;
     private double saldo;
 
