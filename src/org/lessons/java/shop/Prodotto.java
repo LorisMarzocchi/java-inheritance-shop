@@ -1,5 +1,6 @@
 package org.lessons.java.shop;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.Random;
 
@@ -8,10 +9,11 @@ public class Prodotto {
     private final int codice = new Random().nextInt(99999999);
     private String nome;
     private String descrizione;
-    private double prezzo;
-    private double iva;
+    private BigDecimal  prezzo;
+//    quando si parla di soldi si usa BigDecimal
+    private BigDecimal  iva;
 
-    public Prodotto( String nome, String descrizione, double prezzo, double iva) {
+    public Prodotto( String nome, String descrizione, BigDecimal  prezzo, BigDecimal  iva) {
         this.nome = nome;
         this.descrizione = descrizione;
         this.prezzo = prezzo;
@@ -41,25 +43,28 @@ public class Prodotto {
         this.descrizione = descrizione;
     }
 
-    public double getPrezzoBase(){
+    public BigDecimal  getPrezzoBase(){
         return prezzo;
     }
-
-    public double getPrezzoConIva() {
-        DecimalFormat df = new DecimalFormat("#.00");
-        double prezzoIva = prezzo + (prezzo * iva / 100);
-        return Double.parseDouble(df.format(prezzoIva).replace(',', '.'));
+    public BigDecimal getPrezzoConIva() {
+        return prezzo.add(prezzo.multiply(iva));
     }
 
-    public void setPrezzo(double prezzo) {
+
+    public void setPrezzo(BigDecimal  prezzo) {
         this.prezzo = prezzo;
     }
 
-    public double getIva() {
+    public BigDecimal  getIva() {
         return iva;
     }
 
-    public void setIva(double iva) {
+    public void setIva(BigDecimal  iva) {
         this.iva = iva;
     }
+//    public double getPrezzoConIva() {
+//        DecimalFormat df = new DecimalFormat("#.00");
+//        double prezzoIva = prezzo + (prezzo * iva / 100);
+//        return Double.parseDouble(df.format(prezzoIva).replace(',', '.'));
+//    }
 }
