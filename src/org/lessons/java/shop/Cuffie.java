@@ -28,10 +28,19 @@ public class Cuffie extends Prodotto {
     public void setWireless(boolean wireless) {
         this.wireless = wireless;
     }
+    @Override
+    public BigDecimal getPrezzoScontato() {
+        if (!wireless) {
+            BigDecimal sconto = getPrezzoConIva().multiply(new BigDecimal("0.07"));
+            return getPrezzoConIva().subtract(sconto); // sconto del 7% se non sono wireless
+        }
+        return super.getPrezzoScontato();
+    }
+
 
     @Override
     public String toString() {
-        return super.toString() + ", Colore: " + colore + ", Wireless: " + (wireless ? "Sì" : "No");
+        return super.toString() + "Cuffie" + ", Colore: " + colore + ", Wireless: " + (wireless ? "Sì" : "No");
     }
 
 }

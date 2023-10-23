@@ -28,7 +28,7 @@ public class Smartphone extends Prodotto{
     public int getMemoria() {
         return memoria;
     }
-//    @Override
+
 //    public double getPrezzoScontato() {
 //        if (memoria < 32) {
 //            return getPrezzoConIva() - (getPrezzoConIva() * 5.0 / 100); // Sconto del 5%
@@ -36,7 +36,17 @@ public class Smartphone extends Prodotto{
 //        return super.getPrezzoScontato();
 //    }
     @Override
+    public BigDecimal getPrezzoScontato() {
+        if (memoria < 32) {
+            return getPrezzoConIva().multiply(new BigDecimal("0.95")); // sconto del 5% sul prezzo con IVA
+        }
+        return super.getPrezzoScontato();
+    }
+
+
+
+    @Override
     public String toString() {
-        return super.getNomeCompleto() + " - IMEI: " + imei + " - Memoria: " + memoria + "GB";
+        return super.getNomeCompleto() + " Smartphone " + " - IMEI: " + imei + " - Memoria: " + memoria + "GB";
     }
 }

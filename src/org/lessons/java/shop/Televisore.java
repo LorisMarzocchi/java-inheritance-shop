@@ -42,8 +42,17 @@ public class Televisore extends Prodotto{
 
     @Override
     public String toString() {
-        return super.toString() + ", Dimensione: Altezza: " + altezza + ", Larghezza: " + lunghezza + ", Smart: " + (smartTv ? "Sì" : "No");
+        return super.toString() + " Tv " + ", Dimensioni-> Altezza: " + altezza + ", Larghezza: " + lunghezza + ", Smart: " + (smartTv ? "Sì" : "No");
     }
+    @Override
+    public BigDecimal getPrezzoScontato() {
+        if (!smartTv) {
+            BigDecimal sconto = getPrezzoConIva().multiply(new BigDecimal("0.10"));
+            return getPrezzoConIva().subtract(sconto); // sconto del 10% se non è smart
+        }
+        return super.getPrezzoScontato();
+    }
+
 
 
 

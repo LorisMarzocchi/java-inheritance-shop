@@ -1,6 +1,7 @@
 package org.lessons.java.shop;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.Scanner;
 
 public class Carrello {
@@ -8,12 +9,23 @@ public class Carrello {
     private Prodotto[] prodotti = new Prodotto[100];
     private int numeroProdotti = 0;
 
-    public BigDecimal calcolaTotale() {
+    public BigDecimal calcolaTotale(boolean conTessera) {
         BigDecimal totale = BigDecimal.ZERO;
         for (int i = 0; i < numeroProdotti; i++) {
-            totale = totale.add(prodotti[i].getPrezzoConIva());
+            totale = totale.add(prodotti[i].getPrezzoScontato());
         }
+
+        if (conTessera) {
+            BigDecimal scontoTessera = totale.multiply(new BigDecimal("0.02"));
+            totale = totale.subtract(scontoTessera);
+        }
+
+//        System.out.println("Totale: " + totale);  // Stampa il totale
         return totale;
+    }
+    public void stampaTotale(boolean conTessera) {
+        DecimalFormat df = new DecimalFormat("#.00");
+        System.out.println("Totale: " + df.format(calcolaTotale(conTessera)));
     }
 
     @Override
@@ -31,6 +43,9 @@ public class Carrello {
         Scanner scanner = new Scanner(System.in);
         String risposta;
 
+
+        System.out.println("Hai una tessera fedeltà? (s/n)");
+        boolean conTessera = scanner.nextLine().equalsIgnoreCase("s");
         do {
             if (carrello.numeroProdotti >= 100) {
                 System.out.println("Carrello pieno!");
@@ -72,15 +87,17 @@ public class Carrello {
                 case 3:
                     System.out.println("Inserisci colore delle cuffie:");
                     String colore = scanner.nextLine();
-                    System.out.println("Le cuffie sono wireless? (s/n):"); // Ho corretto la domanda qui
-                    boolean isWireless = scanner.nextLine().equalsIgnoreCase("s");
-                    prodotto = new Cuffie(nome, descrizione, prezzo, iva, colore, isWireless);
+                    System.out.println("Le cuffie sono wireless? (s/n):");
+                    boolean wireless = scanner.nextLine().equalsIgnoreCase("s");
+                    prodotto = new Cuffie(nome, descrizione, prezzo, iva, colore, wireless);
                     break;
 
             }
 
             if (prodotto != null) {
                 carrello.prodotti[carrello.numeroProdotti] = prodotto;
+//                System.out.println("Prezzo prodotto: " + prodotto.getPrezzoConIva());
+//                System.out.println("Prezzo prodotto con sconto: " + prodotto.getPrezzoScontato());
                 carrello.numeroProdotti++;
             }
 
@@ -90,6 +107,9 @@ public class Carrello {
 
         System.out.println("Prodotti nel carrello:");
         System.out.println(carrello);
-        System.out.println("Totale: " + carrello.calcolaTotale());
+        System.out.println("Tessera fedeltà applicata: " + conTessera);
+        carrello.stampaTotale(conTessera);
+
+        scanner.close();
     }
 }

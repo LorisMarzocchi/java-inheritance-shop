@@ -1,6 +1,7 @@
 package org.lessons.java.shop;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.Random;
 
@@ -23,7 +24,10 @@ public class Prodotto {
     private String getPaddedCodice() {
         return String.format("%08d", codice);
     }
-
+    @Override
+    public String toString() {
+        return getNomeCompleto();
+    }
     public String getNomeCompleto(){
         return "Codice: " + getPaddedCodice() + " - Nome: " + nome + " - Prezzo: " + getPrezzoConIva();
     }
@@ -46,8 +50,22 @@ public class Prodotto {
     public BigDecimal  getPrezzoBase(){
         return prezzo;
     }
+
     public BigDecimal getPrezzoConIva() {
-        return prezzo.add(prezzo.multiply(iva));
+        BigDecimal fattoreIva = new BigDecimal(1 + (iva.doubleValue() / 100));
+        BigDecimal prezzoConIva = prezzo.multiply(fattoreIva);
+        return prezzoConIva.setScale(2, RoundingMode.HALF_UP);
+    }
+
+
+//    public BigDecimal getPrezzoScontato() {
+////        BigDecimal sconto = getPrezzoConIva().multiply(new BigDecimal("0.02"));
+////        BigDecimal prezzoScontato = getPrezzoConIva().subtract(sconto);
+////        return prezzoScontato;
+//        return getPrezzoConIva().multiply(new BigDecimal("0.98"));
+//    }
+    public BigDecimal getPrezzoScontato() {
+        return getPrezzoConIva();
     }
 
 
