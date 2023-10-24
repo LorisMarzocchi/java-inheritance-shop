@@ -1,7 +1,7 @@
 package org.lessons.java.shop;
 
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
+import java.math.RoundingMode;
 import java.util.Scanner;
 
 public class Carrello {
@@ -21,11 +21,7 @@ public class Carrello {
         }
 
 //        System.out.println("Totale: " + totale);  // Stampa il totale
-        return totale;
-    }
-    public void stampaTotale(boolean conTessera) {
-        DecimalFormat df = new DecimalFormat("#.00");
-        System.out.println("Totale: " + df.format(calcolaTotale(conTessera)));
+        return totale.setScale(2, RoundingMode.HALF_UP);
     }
 
     @Override
@@ -54,6 +50,8 @@ public class Carrello {
 
             System.out.println("Quale prodotto vuoi aggiungere? (1: Smartphone, 2: Televisore, 3: Cuffie)");
             int scelta = Integer.parseInt(scanner.nextLine());
+
+
 
             System.out.println("Inserisci nome del prodotto:");
             String nome = scanner.nextLine();
@@ -94,21 +92,26 @@ public class Carrello {
 
             }
 
-            if (prodotto != null) {
                 carrello.prodotti[carrello.numeroProdotti] = prodotto;
-//                System.out.println("Prezzo prodotto: " + prodotto.getPrezzoConIva());
-//                System.out.println("Prezzo prodotto con sconto: " + prodotto.getPrezzoScontato());
                 carrello.numeroProdotti++;
-            }
+
+
+//            if (prodotto != null) {
+////                System.out.println("Prezzo prodotto: " + prodotto.getPrezzoConIva());
+////                System.out.println("Prezzo prodotto con sconto: " + prodotto.getPrezzoScontato());
+//            }
+
 
             System.out.println("Vuoi aggiungere un altro prodotto? (s/n)");
             risposta = scanner.nextLine();
+
         } while (!risposta.equalsIgnoreCase("n"));
 
         System.out.println("Prodotti nel carrello:");
         System.out.println(carrello);
         System.out.println("Tessera fedeltà applicata: " + conTessera);
-        carrello.stampaTotale(conTessera);
+        System.out.println("Totale: " + carrello.calcolaTotale(conTessera));
+
 
         scanner.close();
     }

@@ -7,11 +7,11 @@ import java.util.Random;
 
 public class Prodotto {
 
+//    quando si parla di soldi si usa BigDecimal
     private final int codice = new Random().nextInt(99999999);
     private String nome;
     private String descrizione;
     private BigDecimal  prezzo;
-//    quando si parla di soldi si usa BigDecimal
     private BigDecimal  iva;
 
     public Prodotto( String nome, String descrizione, BigDecimal  prezzo, BigDecimal  iva) {
@@ -29,7 +29,7 @@ public class Prodotto {
         return getNomeCompleto();
     }
     public String getNomeCompleto(){
-        return "Codice: " + getPaddedCodice() + " - Nome: " + nome + " - Prezzo: " + getPrezzoConIva();
+        return "Codice: " + getPaddedCodice() + " - Nome: " + nome + " - Prezzo Base: " + getPrezzoConIva() + " - ";
     }
     public String getNome() {
         return nome;
@@ -52,7 +52,7 @@ public class Prodotto {
     }
 
     public BigDecimal getPrezzoConIva() {
-        BigDecimal fattoreIva = new BigDecimal(1 + (iva.doubleValue() / 100));
+        BigDecimal fattoreIva = BigDecimal.valueOf(1 + (iva.doubleValue() / 100));
         BigDecimal prezzoConIva = prezzo.multiply(fattoreIva);
         return prezzoConIva.setScale(2, RoundingMode.HALF_UP);
     }
@@ -61,7 +61,9 @@ public class Prodotto {
 //    public BigDecimal getPrezzoScontato() {
 ////        BigDecimal sconto = getPrezzoConIva().multiply(new BigDecimal("0.02"));
 ////        BigDecimal prezzoScontato = getPrezzoConIva().subtract(sconto);
+
 ////        return prezzoScontato;
+
 //        return getPrezzoConIva().multiply(new BigDecimal("0.98"));
 //    }
     public BigDecimal getPrezzoScontato() {
@@ -80,6 +82,8 @@ public class Prodotto {
     public void setIva(BigDecimal  iva) {
         this.iva = iva;
     }
+
+
 //    public double getPrezzoConIva() {
 //        DecimalFormat df = new DecimalFormat("#.00");
 //        double prezzoIva = prezzo + (prezzo * iva / 100);
